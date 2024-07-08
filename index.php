@@ -7,6 +7,23 @@
 <head>
 
 <body>
+
+<?php
+    $servername = "localhost";
+    $username = "nk21137";
+    $password = "yabukiisyabuki";
+    $dbname = "ISSUE_MANAGEMENT";
+
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully";
+    } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+?>
+
+
     <form action="index.php" method="POST">
         <label for="Title">イシュータイトル</label>
         <input type="text" name="Title" id="Title" repuired><br>
