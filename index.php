@@ -83,7 +83,7 @@
    
 
     if ($rows) {
-        echo '<table>';
+        echo '<table border="1">';
         echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>優先順位</th><th>状態</th><th>イシューコミットID</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
