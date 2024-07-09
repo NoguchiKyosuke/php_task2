@@ -21,6 +21,10 @@
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
+
+    $sql = 'SELECT username, reponame FROM repos';
+    $stmt = $conn->query($sql);
+    $rows = $stmt->fetchAll();
 ?>
 
 
@@ -40,7 +44,24 @@
         
         <input type="submit" value="submit">
     </form>
-    
+
+    <?php
+    if ($rows) {
+        echo '<table>';
+        echo '<tr><th>username</th><th>reponame</th></tr>';
+        foreach ($rows as $row) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($row['username']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['reponame']) . '</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    } else {
+        echo 'No data found.';
+    }
+    ?>
+
+
 </body>
 
 </html>
