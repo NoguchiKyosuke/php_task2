@@ -29,7 +29,7 @@
 
 
     <form action="index.php" method="POST">
-        <label for="Title">イシューID</label>
+        <label for="Issue_ID">イシューID</label>
         <input type="number" name="Issue_ID" id="Issue_ID" required><br>
         
         <label for="Title">イシュータイトル</label>
@@ -37,8 +37,8 @@
 
 
         <label for="Label">選択してください</label><br>
-        <input type="radio" name="Label" value="bug" required>バグ<br>
-        <input type="radio" name="Label" value="repuirement" required>機能要求<br>
+        <input type="radio" name="Label" value="バグ" required>バグ<br>
+        <input type="radio" name="Label" value="機能要求" required>機能要求<br>
 
         <label for="Rank">優先順位</label>
         <input type="number" name="Rank" id="Rank" required><br>
@@ -58,7 +58,14 @@
     </form>
 
     <?php
-    
+
+    $issue_id = $_POST['Issue_ID'];    
+    $title = $_POST['Title'];    
+    $label = $_POST['Label'];    
+    $rank = $_POST['Rank'];    
+    $status = $_POST['Status'];    
+    $commit_id = $_POST['Commit_ID'];    
+    $complete_id = $_POST['Complete_ID'];    
 
     if ($rows) {
         echo '<table>';
