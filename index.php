@@ -83,7 +83,7 @@
 
     if ($rows) {
         echo '<table border="1">';
-        echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>優先順位</th><th>状態</th><th>イシューコミットID</th><th>完了コミットID</th></tr>';
+        echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>優先順位</th><th>イシューコミットID</th><th>状態</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
@@ -103,14 +103,14 @@
             }elseif(strcmp(htmlspecialchars($row['status']), "completed") == 0){
                 $completed = "selected";
             }
-            echo '<form action="index.php method="POST">';
+            echo '<form action="index.php" method="POST">';
             echo '<td><select>';
             echo '<option '.$not_started.'>'.'未着手'.'</option>';
             echo '<option '.$in_progress.'>'.'着手中'.'</option>';
             echo '<option '.$completed.'>'.'完了'.'</option>';
             echo '</select></td>';
-            echo '<td><input type="text" name="Title" id="Title" required><br></td>';
-            echo '<td><input type="submit" id="submit_table" value="submit_table"></td>';
+            echo '<td><input type="text" name="Title" id="Title" value='.htmlspecialchars($row['complete_commit']).' required><br></td>';
+            echo '<td><input type="submit" id="submit_table" value="更新"></td>';
             echo '</form>';
             echo '</tr>';
         }
