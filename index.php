@@ -77,7 +77,7 @@
         $stmt -> execute();
     }
 
-    $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues ORDER BY priority ASC;';
+    $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues ORDER BY priority DESC;';
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 
@@ -90,6 +90,7 @@
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['priority']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
             
             $not_started = "";
             $in_progress = "";
@@ -102,14 +103,15 @@
             }elseif(strcmp(htmlspecialchars($row['status']), "completed") == 0){
                 $completed = "selected";
             }
-
+            echo '<form action="index.php method="POST">';
             echo '<td><select>';
             echo '<option '.$not_started.'>'.'未着手'.'</option>';
             echo '<option '.$in_progress.'>'.'着手中'.'</option>';
             echo '<option '.$completed.'>'.'完了'.'</option>';
             echo '</select></td>';
-            echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
-            echo '<td>' . htmlspecialchars($row['complete_commit']) . '</td>';
+            echo '<td><input type="text" name="Title" id="Title" required><br></td>';
+            echo '<td><input type="submit" id="submit_table" value="submit_table"></td>';
+            echo '</form>';
             echo '</tr>';
         }
         echo '</table>';
