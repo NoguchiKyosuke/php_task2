@@ -41,7 +41,7 @@
         <input type="radio" name="Status" value="in_progress" required>着手中<br>
         <input type="radio" name="Status" value="completed" required>完了<br>
 
-        <label for="Commit_ID">イシューコミットID</label>
+        <label for="Commit_ID">イシューコミットID</label>r
         <input type="text" name="Commit_ID" id="Commit_ID" required><br>
 
         <label for="Complete_ID">完了コミット</label>
@@ -52,12 +52,13 @@
 
     <?php
 
+    $sql = "SELECT MAX(issue_id) AS max_id FROM issues;";
+    $stmt = $pdo -> query($sql);
+    $row_max_id = $stmt -> fetch(PDO::FETCH_ASSOC);
+    $issue_id = $row_max_id['max_id'] + 1;
+ 
     if(isset($_POST['submit'])){
-        $sql = "SELECT MAX(issue_id) AS max_id FROM issues;";
-        $stmt = $pdo -> query($sql);
-        $row = $stmt -> fetch(PDO::FETCH_ASSOC);
-        $issue_id = $row['max_id'] + 1;
-        
+       
         $title = $_POST['Title'];
         $label = $_POST['Label'];
         $priority = $_POST['Rank'];
@@ -76,6 +77,19 @@
         $stmt -> bindParam(':complete_id', $complete_id);
 
         $stmt -> execute();
+    }else{
+        for($i = 1; $i <= $row_max_id['max_id']; $i++){ 
+            if(isset($_POST[$i])){
+                $sql = "UPDATE issues SET priority=:priority, status=:status,  complete_commit=:complete_commit WHERE issue_id=:issue_id;";
+                $stmt = $pdo -> prepare($sql);
+                $stmt -> bindParam(':issue_id', $i);
+                $stmt -> bindParam(':priority', $_POST['Rank']);
+                $stmt -> bindParam(':status', $_POST['Status']);
+                $stmt -> bindParam(':complete_commit', $_POST['Complete_ID']);
+                
+                $stmt -> execute();
+            }
+        }
     }
 
     $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues ORDER BY priority DESC;';
@@ -91,7 +105,6 @@
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
-            
             $not_started = "";
             $in_progress = "";
             $completed = "";
@@ -104,14 +117,14 @@
                 $completed = "selected";
             }
             echo '<form action="index.php" method="POST">';
-            echo '<td><select>';
-            echo '<option '.$not_started.'>'.'未着手'.'</option>';
-            echo '<option '.$in_progress.'>'.'着手中'.'</option>';
-            echo '<option '.$completed.'>'.'完了'.'</option>';
+            echo '<td><select name="Status">';
+            echo '<option value="not_started" '.$not_started.'>未着手</option>';
+            echo '<option value="in_progress" '.$in_progress.'>着手中</option>';
+            echo '<option value="completed" '.$completed.'>完了</option>';
             echo '</select></td>';
-            echo '<td><input type="number" name="Priority" id="Priority" value='.htmlspecialchars($row['priority']).'><br></td>';
-            echo '<td><input type="text" name="Title" id="Title" value='.htmlspecialchars($row['complete_commit']).'><br></td>';
-            echo '<td><input type="submit" id="table_submit" name="table_submit" value="更新"></td>';
+            echo '<td><input type="number" name="Rank" id="Rank" value='.htmlspecialchars($row['priority']).'><br></td>';
+            echo '<td><input type="text" name="Complete_ID" id="Complete_ID" value='.htmlspecialchars($row['complete_commit']).'><br></td>';
+            echo '<td><input type="submit" id="'.htmlspecialchars($row['issue_id']).'" name="'.htmlspecialchars($row['issue_id']).'" value="更新"></td>';
             echo '</form>';
             echo '</tr>';
         }
