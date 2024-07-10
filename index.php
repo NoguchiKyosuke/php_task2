@@ -25,9 +25,6 @@
 
 
     <form action="index.php" method="POST">
-        <label for="Issue_ID">イシューID</label>
-        <input type="number" name="Issue_ID" id="Issue_ID" required><br>
-        
         <label for="Title">イシュータイトル</label>
         <input type="text" name="Title" id="Title" required><br>
 
@@ -50,13 +47,17 @@
         <label for="Complete_ID">完了コミット</label>
         <input type="text" name="Complete_ID" id="Complete_ID" required><br>
 
-        <input type="submit" id="submit" value="submit">
+        <input type="submit" id="submit" name="submit" value="submit">
     </form>
 
     <?php
 
     if(isset($_POST['submit'])){
-        $issue_id = $_POST['Issue_ID'];
+        $sql = "SELECT MAX(issue_id) AS max_id FROM issues;";
+        $stmt = $pdo -> query($sql);
+        $row = $stmt -> fetch(PDO::FETCH_ASSOC);
+        $issue_id = $row['max_id'] + 1;
+        
         $title = $_POST['Title'];
         $label = $_POST['Label'];
         $priority = $_POST['Rank'];
@@ -83,13 +84,12 @@
 
     if ($rows) {
         echo '<table border="1">';
-        echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>優先順位</th><th>イシューコミットID</th><th>状態</th><th>完了コミットID</th></tr>';
+        echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>イシューコミットID</th><th>状態</th><th>優先順位</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
-            echo '<td>' . htmlspecialchars($row['priority']) . '</td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
             
             $not_started = "";
@@ -109,8 +109,9 @@
             echo '<option '.$in_progress.'>'.'着手中'.'</option>';
             echo '<option '.$completed.'>'.'完了'.'</option>';
             echo '</select></td>';
-            echo '<td><input type="text" name="Title" id="Title" value='.htmlspecialchars($row['complete_commit']).' required><br></td>';
-            echo '<td><input type="submit" id="submit_table" value="更新"></td>';
+            echo '<td><input type="number" name="Priority" id="Priority" value='.htmlspecialchars($row['priority']).'><br></td>';
+            echo '<td><input type="text" name="Title" id="Title" value='.htmlspecialchars($row['complete_commit']).'><br></td>';
+            echo '<td><input type="submit" id="table_submit" name="table_submit" value="更新"></td>';
             echo '</form>';
             echo '</tr>';
         }
