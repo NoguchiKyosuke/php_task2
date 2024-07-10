@@ -77,7 +77,7 @@
         $stmt -> execute();
     }
 
-    $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues;';
+    $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues ORDER BY priority ASC;';
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 
