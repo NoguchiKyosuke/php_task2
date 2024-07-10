@@ -40,7 +40,7 @@
         <input type="number" name="Rank" id="Rank" required><br>
 
         <label for="Status">進捗状況</label><br>
-        <input type="radio" name="Status" value="not_Started" required>未着手<br>
+        <input type="radio" name="Status" value="not_started" required>未着手<br>
         <input type="radio" name="Status" value="in_progress" required>着手中<br>
         <input type="radio" name="Status" value="completed" required>完了<br>
 
@@ -80,7 +80,6 @@
     $sql = 'SELECT issue_id, title, label, priority, status, issue_commit, complete_commit FROM issues;';
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
-   
 
     if ($rows) {
         echo '<table border="1">';
@@ -91,7 +90,24 @@
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['priority']) . '</td>';
-            echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+            
+            $not_started = "";
+            $in_progress = "";
+            $completed = "";
+            
+            if(strcmp(htmlspecialchars($row['status']), "not_started") == 0){
+                $not_started = "selected";
+            }elseif(strcmp(htmlspecialchars($row['status']), "in_progress") == 0){
+                $in_progress = "selected";
+            }elseif(strcmp(htmlspecialchars($row['status']), "completed") == 0){
+                $completed = "selected";
+            }
+
+            echo '<td><select>';
+            echo '<option '.$not_started.'>'.'未着手'.'</option>';
+            echo '<option '.$in_progress.'>'.'着手中'.'</option>';
+            echo '<option '.$completed.'>'.'完了'.'</option>';
+            echo '</select></td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
             echo '<td>' . htmlspecialchars($row['complete_commit']) . '</td>';
             echo '</tr>';
