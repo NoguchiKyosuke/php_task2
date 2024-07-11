@@ -24,7 +24,7 @@
 ?>
 
 
-    <form action="index.php" method="POST">
+    <form action="table.php" method="POST">
         <label for="Title">イシュータイトル</label>
         <input type="text" name="Title" id="Title" required><br>
 
@@ -116,7 +116,7 @@
             }elseif(strcmp(htmlspecialchars($row['status']), "completed") == 0){
                 $completed = "selected";
             }
-            echo '<form action="index.php" method="POST">';
+            echo '<form action="table.php" method="POST">';
             echo '<td><select name="Status">';
             echo '<option value="not_started" '.$not_started.'>未着手</option>';
             echo '<option value="in_progress" '.$in_progress.'>着手中</option>';
