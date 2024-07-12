@@ -4,6 +4,7 @@
 <head>
     <title>イシュー管理システム</title>
 
+    <script src="./table.js"></script>
 </head>
 
 <body>
@@ -41,7 +42,7 @@
         <input type="radio" name="Status" value="in_progress" required>着手中<br>
         <input type="radio" name="Status" value="completed" required>完了<br>
 
-        <label for="Commit_ID">イシューコミットID</label>r
+        <label for="Commit_ID">イシューコミットID</label>
         <input type="text" name="Commit_ID" id="Commit_ID" required><br>
 
         <label for="Complete_ID">完了コミット</label>
@@ -51,6 +52,18 @@
     </form>
 
     <?php
+
+    if(isset($_POST['Login'])){
+        $username = $_POST['Username'];
+        $reponame = $_POST['Reponame'];
+        
+        $sql = "INSERT INTO repos(username, reponame) VALUES(:reponame, :reponame);";
+        $stmt = $pdo -> prepare($sql);
+        $stmt -> bindParam(';username', $username);
+        $stmt -> bindParam(':reponame', $reponame);
+        $stmt -> execute();
+    }
+
 
     $sql = "SELECT MAX(issue_id) AS max_id FROM issues;";
     $stmt = $pdo -> query($sql);
@@ -101,7 +114,7 @@
         echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>イシューコミットID</th><th>状態</th><th>優先順位</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['issue_id']) . '<div id="url">(URL)</div></td>';
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
