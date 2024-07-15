@@ -59,7 +59,7 @@
         
         $sql = "INSERT INTO repos(username, reponame) VALUES(:reponame, :reponame);";
         $stmt = $pdo -> prepare($sql);
-        $stmt -> bindParam(';username', $username);
+        $stmt -> bindParam(':username', $username);
         $stmt -> bindParam(':reponame', $reponame);
         $stmt -> execute();
     }
@@ -109,12 +109,20 @@
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 
+    $commit_url = [];
+    $tree_url = [];
+    $compare_url = [];
+
     if ($rows) {
         echo '<table border="1">';
         echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>イシューコミットID</th><th>状態</th><th>優先順位</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($row['issue_id']) . '<button id="url">(URL)</button></td>';
+            echo '<td>' . htmlspecialchars($row['issue_id']);
+            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/commits/'.htmlspecialchars($row['issue_commit']).'">コミットURL<a></br>'; 
+            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/tree/'.htmlspecialchars($row['issue_commit']).'">ツリーURL<a></br>'; 
+            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/compare/'.htmlspecialchars($row['issue_commit']).'...'.htmlspecialchars($row['complete_commit']).'">コミット差分URL<a></br>'; 
+            echo '</td>';
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
@@ -140,19 +148,13 @@
             echo '<td><input type="submit" id="'.htmlspecialchars($row['issue_id']).'" name="'.htmlspecialchars($row['issue_id']).'" value="更新"></td>';
             echo '</form>';
             echo '</tr>';
+        
         }
         echo '</table>';
     } else {
         echo 'No data found.';
     }
     ?>
-
-    <div id="popup" class="popup">
-        <a href="https://github.com">https://github.com</a>
-        <button id="hide_popup">非表示</button>"
-    </div>
-
-    <script src="table.js"></script>
 
 </body>
 
