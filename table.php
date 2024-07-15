@@ -4,7 +4,7 @@
 <head>
     <title>イシュー管理システム</title>
 
-    <script src="./table.js"></script>
+    <link href="table.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -114,7 +114,7 @@
         echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>イシューコミットID</th><th>状態</th><th>優先順位</th><th>完了コミットID</th></tr>';
         foreach ($rows as $row) {
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($row['issue_id']) . '<div id="url">(URL)</div></td>';
+            echo '<td>' . htmlspecialchars($row['issue_id']) . '<button id="url">(URL)</button></td>';
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
             echo '<td>' . htmlspecialchars($row['issue_commit']) . '</td>';
@@ -147,6 +147,12 @@
     }
     ?>
 
+    <div id="popup" class="popup">
+        <a href="https://github.com">https://github.com</a>
+        <button id="hide_popup">非表示</button>"
+    </div>
+
+    <script src="table.js"></script>
 
 </body>
 

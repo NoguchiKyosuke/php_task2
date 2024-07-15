@@ -1,5 +1,13 @@
-const URL = document.getElementById('URL');
+const URL_BUTTON = document.getElementById('url');
+const HIDE = document.getElementById('hide_popup');
 
-URL.addEventListener('click', function(){
-    document.getElementById('popup').style.display = 'block';
-});'
+document.addEventListener('DOMContentLoaded', function(){
+
+    URL_BUTTON.addEventListener('click', function(){
+        document.getElementById('popup').style.display = 'block';
+    });
+
+    HIDE.addEventListener('click', function(){
+        document.getElementById('popup').style.display = 'none';
+    });
+});
