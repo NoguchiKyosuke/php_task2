@@ -53,9 +53,13 @@
 
     <?php
 
+    session_start();
+    
     if(isset($_POST['Login'])){
         $username = $_POST['Username'];
+        $_SESSION['username'] = $username;
         $reponame = $_POST['Reponame'];
+        $_SESSION['reponame'] = $reponame;
         
         $sql = "INSERT INTO repos(username, reponame) VALUES(:reponame, :reponame);";
         $stmt = $pdo -> prepare($sql);
@@ -119,9 +123,9 @@
         foreach ($rows as $row) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($row['issue_id']);
-            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/commits/'.htmlspecialchars($row['issue_commit']).'">コミットURL<a></br>'; 
-            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/tree/'.htmlspecialchars($row['issue_commit']).'">ツリーURL<a></br>'; 
-            echo '<a href="https://github.com/'.$username.'/'.$reponame.'/compare/'.htmlspecialchars($row['issue_commit']).'...'.htmlspecialchars($row['complete_commit']).'">コミット差分URL<a></br>'; 
+            echo '<a href="https://github.com/'.$_SESSION['username'].'/'.$_SESSION['reponame'].'/commits/'.htmlspecialchars($row['issue_commit']).'">コミットURL<a></br>'; 
+            echo '<a href="https://github.com/'.$_SESSION['username'].'/'.$_SESSION['reponame'].'/tree/'.htmlspecialchars($row['issue_commit']).'">ツリーURL<a></br>'; 
+            echo '<a href="https://github.com/'.$_SESSION['username'].'/'.$_SESSION['reponame'].'/compare/'.htmlspecialchars($row['issue_commit']).'...'.htmlspecialchars($row['complete_commit']).'">コミット差分URL<a></br>'; 
             echo '</td>';
             echo '<td>' . htmlspecialchars($row['title']) . '</td>';
             echo '<td>' . htmlspecialchars($row['label']) . '</td>';
