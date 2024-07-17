@@ -113,10 +113,6 @@
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 
-    $commit_url = [];
-    $tree_url = [];
-    $compare_url = [];
-
     if ($rows) {
         echo '<table border="1">';
         echo '<tr><th>イシューID</th><th>タイトル</th><th>ラベル</th><th>イシューコミットID</th><th>状態</th><th>優先順位</th><th>完了コミットID</th></tr>';
