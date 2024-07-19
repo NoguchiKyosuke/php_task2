@@ -62,7 +62,7 @@
         <input type="text" name="Commit_ID" id="Commit_ID" required><br>
 
         <label for="Complete_ID">完了コミット</label>
-        <input type="text" name="Complete_ID" id="Complete_ID" required><br>
+        <input type="text" name="Complete_ID" id="Complete_ID"><br>
 
         <input type="submit" id="submit" name="submit" value="submit">
     </form>
@@ -142,11 +142,11 @@
             }
             echo '<form action="table.php" method="POST">';
             echo '<td><select name="Status">';
-            echo '<option value="not_started" '.$not_started.'>未着手</option>';
-            echo '<option value="in_progress" '.$in_progress.'>着手中</option>';
-            echo '<option value="completed" '.$completed.'>完了</option>';
+            echo '<option value="not_started" '.$not_started.' required>未着手</option>';
+            echo '<option value="in_progress" '.$in_progress.' required>着手中</option>';
+            echo '<option value="completed" '.$completed.' required>完了</option>';
             echo '</select></td>';
-            echo '<td><input type="number" name="Rank" id="Rank" value='.htmlspecialchars($row['priority']).'><br></td>';
+            echo '<td><input type="number" name="Rank" id="Rank" value='.htmlspecialchars($row['priority']).' required><br></td>';
             echo '<td><input type="text" name="Complete_ID" id="Complete_ID" value='.htmlspecialchars($row['complete_commit']).'><br></td>';
             echo '<td><input type="submit" id="'.htmlspecialchars($row['issue_id']).'" name="'.htmlspecialchars($row['issue_id']).'" value="更新"></td>';
             echo '</form>';
