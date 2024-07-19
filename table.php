@@ -22,6 +22,21 @@
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
+ 
+    if(isset($_POST['Login'])){
+        $username = $_POST['Username'];
+        $reponame = $_POST['Reponame'];
+        $sql = "SELECT * FROM repos;";
+        $stmt = $pdo -> query($sql);
+        $login = $stmt -> fetch(PDO::FETCH_ASSOC);
+        if($login['username'] != $username || $login['reponame'] != $reponame){
+            header('location: ' . $_SERVER['HTTP_REFERER'] . '?miss=miss');
+        }  
+    }        
+       
+    session_start();
+    $_SESSION['reponame'] = $reponame;
+    $_SESSION['reponame'] = $reponame;
 ?>
 
 
@@ -53,20 +68,7 @@
 
     <?php
 
-    session_start();
-    
-    if(isset($_POST['Login'])){
-        $username = $_POST['Username'];
-        $_SESSION['username'] = $username;
-        $reponame = $_POST['Reponame'];
-        $_SESSION['reponame'] = $reponame;
-        
-        $sql = "INSERT INTO repos(username, reponame) VALUES(:reponame, :reponame);";
-        $stmt = $pdo -> prepare($sql);
-        $stmt -> bindParam(':username', $username);
-        $stmt -> bindParam(':reponame', $reponame);
-        $stmt -> execute();
-    }
+   
 
 
     $sql = "SELECT MAX(issue_id) AS max_id FROM issues;";
