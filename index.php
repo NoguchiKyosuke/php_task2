@@ -17,7 +17,11 @@
 
         <input type="submit" id="Login" name="Login" value="ログイン">
     </form>
-
+    <?php
+        if(isset($_GET['miss'])){
+            echo '名前またはレポジトリ名が間違っています。';
+        }    
+    ?>
 </body>
 
 </html>
