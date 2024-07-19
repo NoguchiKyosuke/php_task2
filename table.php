@@ -32,11 +32,12 @@
         if($login['username'] != $username || $login['reponame'] != $reponame){
             header('location: ' . $_SERVER['HTTP_REFERER'] . '?miss=miss');
         }  
-    }        
-       
-    session_start();
-    $_SESSION['reponame'] = $reponame;
-    $_SESSION['reponame'] = $reponame;
+        session_start();
+        $_SESSION['username'] = $username;
+        $_SESSION['reponame'] = $reponame;
+    }else{
+        session_start();
+    }
 ?>
 
 
